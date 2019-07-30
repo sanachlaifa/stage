@@ -1,0 +1,27 @@
+spring.application.name: paie-service
+server.port: 8000
+
+## DB config
+spring:
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        generate_statistics: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    driver-class-name: org.postgresql.Driver 
+    url: jdbc:postgresql://localhost:5432/paieModule
+    username: postgres
+    password: schsch147
+
+# Logging     
+logging.level:
+  org.hibernate:
+    stat: debug
+    type: trace
+
