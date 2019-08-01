@@ -37,7 +37,7 @@ public class PrimeController {
 	@Autowired
 	private ModelMapper modelMapper;
 	
-	@GetMapping("/liste")
+	@GetMapping("/listeDesPrimes")
 	public Object primesList() {
 		List<Prime> primes = primeService.consulterPrimes();
 		Type listType = new TypeToken<List<PrimeDto>>(){}.getType();
@@ -45,14 +45,14 @@ public class PrimeController {
 		return ResponseEntity.status(HttpStatus.OK).body(primeDtos);
 	}
 	
-	@GetMapping("/{id}")
+	@GetMapping("/trouverPrime/{id}")
 	public Object findOnePrime(@PathVariable long id) {
 		Prime prime = primeService.trouverPrime(id);
 		PrimeDto primeDto = modelMapper.map( prime,  PrimeDto.class);
 		return ResponseEntity.status(HttpStatus.OK).body(primeDto);
 	}
 	
-	@PostMapping()
+	@PostMapping("/ajouterPrime")
 	public Object addPrime(@Valid @RequestBody PrimeDto primeDto) {
 		Prime prime = modelMapper.map(primeDto, Prime.class);
 		
@@ -62,7 +62,7 @@ public class PrimeController {
 		return ResponseEntity.status(HttpStatus.CREATED).body(primeDto);
 	}
 	
-	@GetMapping("/find/{id}")
+	@GetMapping("/chercherPrime/{id}")
 	public Object findPrime(@PathVariable String c) {
 		List<Prime> l = primeService.chercherPrime(c);
 		Type listType = new TypeToken<List<PrimeDto>>(){}.getType();
@@ -70,14 +70,14 @@ public class PrimeController {
 		return ResponseEntity.status(HttpStatus.OK).body(primeDto );
 	}
 	
-	@PatchMapping("/update/{id}")
+	@PatchMapping("/modifierPrime/{id}")
 	public Object updatePrimeValue(@Valid @RequestBody PrimeDto primeDto, @PathVariable long id ) {
 		Prime prime = primeService.modifierPrime(id, primeDto.getValeurPrime());
 		primeDto = modelMapper.map(prime, PrimeDto.class);
 		return ResponseEntity.status(HttpStatus.CREATED).body(primeDto);
 	}
 	
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/supprimerPrime/{id}")
 	public Object Delete(@PathVariable("id") Long id) {
 		primeService.supprimerPrime(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
