@@ -10,7 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class DeclarationCNSS implements Serializable {
 	/**
 	 * 
@@ -24,30 +31,7 @@ public class DeclarationCNSS implements Serializable {
     @Temporal(TemporalType.DATE)
 	private Date dateCreaDec ;
 
-    public Long getIdDecCNSS() {
-		return idDecCNSS;
-	}
-	public void setIdDecCNSS(Long idDecCNSS) {
-		this.idDecCNSS = idDecCNSS;
-	}
-	public Date getDateCreaDec() {
-		return dateCreaDec;
-	}
-	public void setDateCreaDec(Date dateCreaDec) {
-		this.dateCreaDec = dateCreaDec;
-	}
-	public Date getDatePay() {
-		return datePay;
-	}
-	public void setDatePay(Date datePay) {
-		this.datePay = datePay;
-	}
-	public Float getMontantCNSS() {
-		return montantCNSS;
-	}
-	public void setMontantCNSS(Float montantCNSS) {
-		this.montantCNSS = montantCNSS;
-	}
+  
 	@Temporal(TemporalType.DATE)
 	private Date datePay ;
 	private Float montantCNSS ;

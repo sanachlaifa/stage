@@ -12,75 +12,71 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
+import com.example.demo.entities.Contrat;
 import com.example.demo.entities.Prime;
 import com.example.demo.rest.dto.PrimeDto;
+import com.example.demo.services.ContratService;
 import com.example.demo.services.PrimeService;
 
 
 
 
-
-@RestController("/primes")
+@CrossOrigin("*")
+@RestController()
 public class PrimeController {
 
 	@Autowired
 	private PrimeService primeService ;
 	
 	@Autowired
+    private ContratService contratService;
+	
+	@Autowired
 	private ModelMapper modelMapper;
 	
-	@GetMapping("/listeDesPrimes")
-	public Object primesList() {
-		List<Prime> primes = primeService.consulterPrimes();
-		Type listType = new TypeToken<List<PrimeDto>>(){}.getType();
-		List<PrimeDto> primeDtos = modelMapper.map(primes, listType);
-		return ResponseEntity.status(HttpStatus.OK).body(primeDtos);
-	}
+	   @PostMapping("/contrat/{idC}/primes")
+	    public Object addPrimeContrat(@PathVariable("idC") Long idC, @Valid @RequestBody PrimeDto primeDto) {
+	        Contrat contrat = contratService.getContrat(idC);
+	        Prime prime = modelMapper.map(primeDto, Prime.class);
+	        prime = primeService.savePrimeContrat(prime, contrat);
+	        primeDto = modelMapper.map(prime, PrimeDto.class);
+	        return ResponseEntity.status(HttpStatus.CREATED).body(primeDto);
+	    }
 	
-	@GetMapping("/trouverPrime/{id}")
-	public Object findOnePrime(@PathVariable long id) {
-		Prime prime = primeService.trouverPrime(id);
-		PrimeDto primeDto = modelMapper.map( prime,  PrimeDto.class);
-		return ResponseEntity.status(HttpStatus.OK).body(primeDto);
-	}
+	 @GetMapping("/contrat/{idC}/primes")
+	    public Object PrimesContratList(@PathVariable("idC") Long idC) {
+	        List<Prime> primes = primeService.getAllContratPrime(idC);
+	        Type listType = new TypeToken<List<PrimeDto>>() {
+	        }.getType();
+	        List<PrimeDto> primeDtos = modelMapper.map(primes, listType);
+	        return ResponseEntity.status(HttpStatus.OK).body(primeDtos);
+	    }
 	
-	@PostMapping("/ajouterPrime")
-	public Object addPrime(@Valid @RequestBody PrimeDto primeDto) {
-		Prime prime = modelMapper.map(primeDto, Prime.class);
-		
-		prime = primeService.AjouterPrime(prime);
-
-		primeDto = modelMapper.map(prime, PrimeDto.class);
-		return ResponseEntity.status(HttpStatus.CREATED).body(primeDto);
-	}
+	@PutMapping("/contrat/{idC}/primes/{id}")
+    public Object updatePrimeContrat(@Valid @RequestBody PrimeDto primeDto, @PathVariable("id") Long id, @PathVariable("idC") Long idC) {
+        Contrat contrat = contratService.getContrat(idC);
+        Prime prime = modelMapper.map(primeDto, Prime.class);
+        prime = primeService.updatePrimeContrat(id, prime, contrat);
+        primeDto = modelMapper.map(prime, PrimeDto.class);
+        return ResponseEntity.status(HttpStatus.CREATED).body(primeDto);
+    }
 	
-	@GetMapping("/chercherPrime/{id}")
-	public Object findPrime(@PathVariable String c) {
-		List<Prime> l = primeService.chercherPrime(c);
-		Type listType = new TypeToken<List<PrimeDto>>(){}.getType();
-		List<PrimeDto> primeDto = modelMapper.map(l, listType);
-		return ResponseEntity.status(HttpStatus.OK).body(primeDto );
-	}
-	
-	@PatchMapping("/modifierPrime/{id}")
-	public Object updatePrimeValue(@Valid @RequestBody PrimeDto primeDto, @PathVariable long id ) {
-		Prime prime = primeService.modifierPrime(id, primeDto.getValeurPrime());
-		primeDto = modelMapper.map(prime, PrimeDto.class);
-		return ResponseEntity.status(HttpStatus.CREATED).body(primeDto);
-	}
 	
 	@DeleteMapping("/supprimerPrime/{id}")
 	public Object Delete(@PathVariable("id") Long id) {
-		primeService.supprimerPrime(id);
+		primeService.deletePrime(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 	}
+
 
 }

@@ -2,15 +2,19 @@ package com.example.demo.services;
 
 import java.util.List;
 
-import com.example.demo.entities.Employé;
+import com.example.demo.entities.Employee;
 
 
 
 public interface EmployeService {
-	 public Employé trouverEmployé (Long p) ;
-	 public Employé AjouterEmployé (Employé p);
-	 public Employé modifierEmployé (Long p , float val);
-	 public List<Employé> consulterEmployés ();
-	 public void supprimerEmployé (Long p);
-	 public List<Employé>  chercherEmployé (String criteria);
+    
+    Employee getEmployee(Long id);
+    
+    List<Employee> getAllEmployee();
+    
+    Employee saveEmployee(Employee employee);
+    
+    void deleteEmployee(Long id);
+    
+    Employee updateEmployee(long id, Employee employee);
 }

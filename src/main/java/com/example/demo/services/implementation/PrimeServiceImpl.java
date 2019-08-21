@@ -1,69 +1,73 @@
 package com.example.demo.services.implementation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.entities.Contrat;
 import com.example.demo.entities.Prime;
 
 import com.example.demo.repositories.PrimeRepo;
+import com.example.demo.services.ContratService;
 import com.example.demo.services.PrimeService;
+
 
 @Service
 public class PrimeServiceImpl implements PrimeService {
 
+	
+	
 	@Autowired
-	private PrimeRepo primeRep ;
+    private ContratService contratService;
+	@Autowired
+	private PrimeRepo primeRepository ;
+	@Override
+	public Prime getPrime(Long id) {
+		 Prime prime = primeRepository.findById(id).get();
+	        if (prime == null) {
+	            System.out.println("erreur get");
+	        }
+	        return prime;
+	}
+	@Override
+	public List<Prime> getAllContratPrime(Long id) {
+		Contrat contrat = contratService.getContrat(id);
+        return (List<Prime>) primeRepository.findByContrat(contrat);
+	}
 	
+	 @Transactional
 	@Override
-	@Transactional
-	public Prime AjouterPrime(Prime p) {
-		return primeRep.save(p);
-		
+	public Prime savePrimeContrat(Prime prime, Contrat contrat) {
+		 prime.setContrat(contrat);
+	        return primeRepository.save(prime);
 	}
-
-	@Override
-	@Transactional
-	public Prime modifierPrime(Long p , float val) {
-		Prime prime = trouverPrime(p);
-        prime.setValeurPrime(val);
-		return primeRep.save(prime) ;
-	}
-
 	
-
+	 @Transactional
 	@Override
-	@Transactional
-	public void supprimerPrime(Long p) {
-		Prime prime = trouverPrime(p);
-		primeRep.delete(prime);
-		
+	public void deletePrime(Long id) {
+		 try {
+	            primeRepository.deleteById(id);
+	        } catch (EmptyResultDataAccessException e) {
+	            System.out.println("erreur delete");
+	        }	
 	}
-
+	
+	 @Transactional
 	@Override
-	public List<Prime> chercherPrime(String c) {
-		List <Prime> l = new ArrayList <Prime> ();
-		List <Prime> lp = consulterPrimes();
-		for (Prime prime : lp) {
-			if(prime.getNomPrime().contains(c)) {
-				l.add(prime);
-			}
-		}
-		return l;
-	}
+	public Prime updatePrimeContrat(Long id, Prime prime, Contrat contrat) {
+		   getPrime(id);
+	        prime.setIdPrime(id);
+	        prime.setContrat(contrat);
+	        return savePrimeContrat(prime, contrat);
+	} ;
 
-	@Override
-	public List<Prime> consulterPrimes() {
-		return primeRep.findAll() ;
-	}
 
-	@Override
-	public Prime trouverPrime(Long p) {
-		
-		return primeRep.getOne(p);
-	}
 	
 }
+
+
+
+   

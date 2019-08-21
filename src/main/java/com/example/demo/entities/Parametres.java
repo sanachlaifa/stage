@@ -1,37 +1,35 @@
 package com.example.demo.entities;
 
-import java.io.Serializable;
+
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
 
 @Entity
-public class Parametres implements Serializable {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Parametres {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
- private Long idPar ;
+ private Long idAutre ;
  private String nomPar ;
- private Float valPar ;
- public Long getIdPar() {
-	return idPar;
-}
-public String getNomPar() {
-	return nomPar;
-}
-public void setNomPar(String nomPar) {
-	this.nomPar = nomPar;
-}
-public Float getValPar() {
-	return valPar;
-}
-public void setValPar(Float valPar) {
-	this.valPar = valPar;
-}
-public void setIdPar(Long idPar) {
-	this.idPar = idPar;
-}
+ private float valPar ;
+
+
+ @ManyToOne(fetch = FetchType.LAZY)
+ @JoinColumn(name ="CONTRAT_ID")
+ private Contrat contrat;
 
 }
-
- 

@@ -7,10 +7,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class FichePaie implements Serializable {
 	/**
 	 * 
@@ -19,32 +28,15 @@ public class FichePaie implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idFiche ;
-    private String urlFiche ;
-    public String getUrlFiche() {
-		return urlFiche;
-	}
-
-	public void setUrlFiche(String urlFiche) {
-		this.urlFiche = urlFiche;
-	}
+   
 
 	@Temporal(TemporalType.DATE)
 	private Date dateCreation ;
 
-	public Long getIdFiche() {
-		return idFiche;
-	}
-
-	public void setIdFiche(Long idFiche) {
-		this.idFiche = idFiche;
-	}
-
-	public Date getDateCreation() {
-		return dateCreation;
-	}
-
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
-	}
+	
+	@ManyToOne
+	@JoinColumn(name ="employee.MATRICULE")
+	private Employee employee ;
+	
 
 }

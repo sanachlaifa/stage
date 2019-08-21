@@ -1,63 +1,59 @@
 package com.example.demo.services.implementation;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import javax.transaction.Transactional;
 
-import com.example.demo.entities.Employé;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.entities.Employee;
 import com.example.demo.repositories.EmployeRepo;
 import com.example.demo.services.EmployeService;
 
 
 @Service
-public class EmployeServiceImpl implements EmployeService{
+public class EmployeServiceImpl implements EmployeService {
 
 	@Autowired
-	private EmployeRepo employeRepo ;
+	private EmployeRepo employeeRepository ;
+
+	@Override
+	public Employee getEmployee(Long id) {
+		   return employeeRepository.findById(id).get();
+	}
+
+	@Override
+	public List<Employee> getAllEmployee() {
+		  return (List<Employee>) employeeRepository.findAll();
+	}
+
+	 @Transactional
+	@Override
+	public Employee saveEmployee(Employee employee) {
+		 return employeeRepository.save(employee);
+	}
+
+	 @Transactional
+	@Override
+	public void deleteEmployee(Long id) {
+		  try {
+	            employeeRepository.deleteById(id);
+	        } catch (EmptyResultDataAccessException e) {
+	            System.out.println("erreur delete");
+	        }
+		
+	}
+
+	 @Transactional
+	@Override
+	public Employee updateEmployee(long matricule, Employee employee) {
+		    getEmployee(matricule);
+	        employee.setMatricule(matricule);
+	        return saveEmployee(employee);
+	}
 	
-	@Override
-	public Employé trouverEmployé(Long p) {
-		return employeRepo.getOne(p);
-	}
 
-	@Override
-	@Transactional
-	public Employé AjouterEmployé(Employé p) {
-		return employeRepo.save(p);
-	}
-
-	@Override
-	public Employé modifierEmployé(Long p, float val) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Employé> consulterEmployés() {
-		return employeRepo.findAll();
-	}
-
-	@Override
-	@Transactional
-	public void supprimerEmployé(Long p) {
-     Employé emp = trouverEmployé(p);
-     employeRepo.delete(emp);		
-	}
-
-	@Override
-	public List<Employé> chercherEmployé(String c) {
 	
-		List <Employé> l = new ArrayList <Employé> ();
-		List <Employé> lp = consulterEmployés();
-		for (Employé emp : lp) {
-			if(emp.getNomEmployé().contains(c)) {
-				l.add(emp);
-			}
-		}
-		return l;
-	}
-
 }

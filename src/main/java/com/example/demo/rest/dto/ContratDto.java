@@ -1,5 +1,6 @@
 package com.example.demo.rest.dto;
 
+import java.util.Collection;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,4 +23,13 @@ public class ContratDto {
 	private Date dateFin ;
 	private String typeSalaire ;
 	private Float salaireBase ;
+	private Collection<PrimeDto> primeDto;
+	private Collection<AbattementDto> abattementDto;
+	private Collection<ImpotDto> impotDto;
+	private Collection<ParametreDto> parametreDto;
 }
+
+
+
+
+
