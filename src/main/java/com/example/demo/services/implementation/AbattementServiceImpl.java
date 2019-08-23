@@ -7,9 +7,11 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entities.Abattement;
+import com.example.demo.model.entities.Abattement;
+import com.example.demo.model.entities.Contrat;
 import com.example.demo.repositories.AbattementRepo;
 import com.example.demo.services.AbattementService;
+import com.example.demo.services.ContratService;
 
 
 @Service
@@ -17,6 +19,9 @@ public class AbattementServiceImpl implements AbattementService {
 
 	@Autowired
 	private AbattementRepo abattementRepo ;
+	
+	@Autowired
+	private ContratService contratService ;
 	
 	@Override
 	public Abattement getAbattement(Long id) {
@@ -30,23 +35,33 @@ public class AbattementServiceImpl implements AbattementService {
 		
 	}
 
-	@Override
-	public List<Abattement> getAllAbattement() {
-		return (List<Abattement>) abattementRepo.findAll();
-	}
+	
 
 	@Transactional
 	@Override
-	public Abattement saveAbattement(Abattement abattement) {
+	public Abattement saveAbattementContrat(Abattement abattement, Contrat contrat) {
+		abattement.setContrat(contrat);
 		return abattementRepo.save(abattement);
 	}
 
-	@Transactional
+
+
+	
+	
 	@Override
-	public Abattement updateAbattement(long id, Abattement abattement) {
-		getAbattement(id);
-        abattement.setIdAbat(id);
-        return saveAbattement(abattement);
+	public List<Abattement> getAllContratAbattement(Long id) {
+		Contrat contrat = contratService.getContrat(id);
+		return (List<Abattement>) abattementRepo.findByContrat(contrat);
 	}
 
+	@Transactional
+	@Override
+	public Abattement updateAbattementContrat (Long id, Abattement abattement,Contrat contrat) {
+		getAbattement(id);
+        abattement.setIdAbat(id);
+        abattement.setContrat(contrat);
+        return saveAbattementContrat(abattement,contrat);
+	}
+
+	
 }

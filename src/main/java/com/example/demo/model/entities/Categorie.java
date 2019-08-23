@@ -1,14 +1,16 @@
-package com.example.demo.entities;
+package com.example.demo.model.entities;
 
 
+
+import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Categorie {
+public class Categorie  implements Serializable{
 private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -26,8 +28,9 @@ private static final long serialVersionUID = 1L;
 	private Long idCat ;
 	private String nom ;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	 @JoinColumn(name ="ABATTEMENT_ID")
-	 private Abattement abattement;
+
+    @OneToMany(mappedBy ="categorie", fetch = FetchType.LAZY)
+    private Set<Abattement> abattement;
+
 	
 }

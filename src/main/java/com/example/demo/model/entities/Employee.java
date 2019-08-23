@@ -1,4 +1,4 @@
-package com.example.demo.entities;
+package com.example.demo.model.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -73,8 +73,9 @@ public class Employee implements Serializable{
    private String typePermis;
    @Column(name= "MAIL")
    private String mail;
-   @Column(name= "ETAT_ENFANT")
-   private String [] etatEnfant ;
+  
+   @OneToMany(mappedBy="employee", cascade= {CascadeType.MERGE, CascadeType.PERSIST}, fetch= FetchType.LAZY)
+   private Set<Enfant> enfants;
    @OneToMany(mappedBy="employee", cascade= {CascadeType.MERGE, CascadeType.PERSIST}, fetch= FetchType.LAZY)
    private Set<Contrat> contrats;
    @OneToMany(mappedBy="employee", cascade= {CascadeType.MERGE, CascadeType.PERSIST}, fetch= FetchType.LAZY)

@@ -21,9 +21,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import com.example.demo.entities.Contrat;
-import com.example.demo.entities.Prime;
+import com.example.demo.model.entities.Contrat;
+import com.example.demo.model.entities.Prime;
 import com.example.demo.rest.dto.PrimeDto;
 import com.example.demo.services.ContratService;
 import com.example.demo.services.PrimeService;

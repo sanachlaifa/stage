@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.entities.Contrat;
-import com.example.demo.entities.Employee;
+import com.example.demo.model.entities.Contrat;
+import com.example.demo.model.entities.Employee;
 import com.example.demo.rest.dto.ContratDto;
 import com.example.demo.rest.dto.EmployeDto;
 import com.example.demo.services.ContratService;
 import com.example.demo.services.EmployeService;
 @CrossOrigin("*")
-@RestController("/employes")
+@RestController()
 public class EmployeController {
 	@Autowired
 	private EmployeService employeService ;
@@ -69,7 +69,8 @@ public class EmployeController {
 	
 	@PutMapping("/modifierEmploye/{matricule}")
     public Object updateEmployee(@Valid @RequestBody EmployeDto employeeDto, @PathVariable("matricule") Long matricule) {
-        Employee employee = modelMapper.map(employeeDto, Employee.class);
+		Employee employee = employeService.getEmployee(matricule);
+        employee = modelMapper.map(employeeDto, Employee.class);
         employee = employeService.updateEmployee(matricule, employee);
         employeeDto = modelMapper.map(employee, EmployeDto.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(employeeDto);

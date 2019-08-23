@@ -1,6 +1,8 @@
-package com.example.demo.entities;
+package com.example.demo.model.entities;
 
 
+
+import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,10 +22,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Parametres {
+public class Parametres  implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
- private Long idAutre ;
+ private Long idPar ;
  private String nomPar ;
  private float valPar ;
 

@@ -1,5 +1,6 @@
-package com.example.demo.entities;
+package com.example.demo.model.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -18,8 +19,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Prime {
-	 @Id
+public class Prime  implements Serializable {
+	 /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	@Id
 	 @GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long idPrime ;
 	 @Column(name= "VALEUR")
@@ -32,6 +37,7 @@ public class Prime {
 	 private String option ;
 	 @Column(name= "MOISAFF")
 	 private String  [] moisAff ;
+	 
 	 @ManyToOne(fetch = FetchType.LAZY)
 	 @JoinColumn(name ="CONTRAT_ID")
 	 private Contrat contrat;

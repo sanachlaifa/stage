@@ -2,20 +2,17 @@ package com.example.demo.services;
 
 import java.util.List;
 
-import com.example.demo.entities.Abattement;
-import com.example.demo.entities.Categorie;
+import com.example.demo.model.entities.Abattement;
+import com.example.demo.model.entities.Categorie;
+
 
 
 public interface CategorieService {
 	
-	    Categorie getCategorie(Long id);
-	    
-	    List<Categorie> getAllAbattementCategorie(Long id);
-	    
-	    Categorie saveCategorieAbattement(Categorie categorie, Long idAbattement);
-	    
-	    void deleteCategorie(Long id);
-	    
-	    Categorie updateCategorieAbattement(Long id, Categorie categorie, Long idAbattement);
+	Categorie getCategorie(Long id);
+	Categorie saveCategorie(Categorie Categorie);
+	List<Categorie> getAllCategorie();
+	void deleteCategorie(Long id);
+	 Categorie updateCategorie( long id, Categorie Categorie) ;
 
 }

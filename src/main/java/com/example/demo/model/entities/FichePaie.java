@@ -1,9 +1,10 @@
-package com.example.demo.entities;
+package com.example.demo.model.entities;
 
 import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,6 +34,9 @@ public class FichePaie implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dateCreation ;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	 @JoinColumn(name ="CONTRAT_ID")
+	 private Contrat contrat;
 	
 	@ManyToOne
 	@JoinColumn(name ="employee.MATRICULE")

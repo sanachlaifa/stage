@@ -23,6 +23,7 @@ public class ContratDto {
 	private Date dateFin ;
 	private String typeSalaire ;
 	private Float salaireBase ;
+	private Collection<FichePaieDto> ficheDto ;
 	private Collection<PrimeDto> primeDto;
 	private Collection<AbattementDto> abattementDto;
 	private Collection<ImpotDto> impotDto;

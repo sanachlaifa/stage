@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entities.Employee;
+import com.example.demo.model.entities.Employee;
 import com.example.demo.repositories.EmployeRepo;
 import com.example.demo.services.EmployeService;
 

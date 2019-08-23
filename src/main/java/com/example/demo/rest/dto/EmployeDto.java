@@ -42,7 +42,7 @@ public class EmployeDto {
 	   private String mail;
 	   private Integer actif = 1;
 	   private Integer valider;
-	   private int nbreEnfant ;
+	   private Collection<EnfantDto> enfantDtos;
 	   private Collection<ContratDto> contratDtos;
 	   private Collection<FichePaieDto> ficheDtos;
 	   private Collection<PresenceDto> presenceDtos;

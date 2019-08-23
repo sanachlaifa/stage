@@ -1,8 +1,8 @@
 package com.example.demo.services;
 import java.util.List;
 
-import com.example.demo.entities.Contrat;
-import com.example.demo.entities.Prime;
+import com.example.demo.model.entities.Contrat;
+import com.example.demo.model.entities.Prime;
 public interface PrimeService {
     
     Prime getPrime(Long id);

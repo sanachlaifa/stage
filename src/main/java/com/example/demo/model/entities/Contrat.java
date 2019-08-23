@@ -1,4 +1,4 @@
-package com.example.demo.entities;
+package com.example.demo.model.entities;
 
 
 import java.io.Serializable;
@@ -34,6 +34,9 @@ public class Contrat implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "EMPLOYEE_ID")
     private Employee employee;
+    
+    @OneToMany(mappedBy ="contrat", cascade= {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    private Set<FichePaie> fiche;
     
     @OneToMany(mappedBy ="contrat", cascade= {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     private Set<Prime> prime;

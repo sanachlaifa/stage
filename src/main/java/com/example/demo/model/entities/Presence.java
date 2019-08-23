@@ -1,38 +1,41 @@
-package com.example.demo.entities;
+package com.example.demo.model.entities;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DeclarationCNSS implements Serializable {
+public class Presence implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long idDecCNSS ;
+	private Long idPres ;
+	private Long nbreJoursPres ;
+	private String mois ;
+	
+	private Long année ;
+	
 
-    @Temporal(TemporalType.DATE)
-	private Date dateCreaDec ;
+	private Long nbreHeuresPres ;
+	private Long nbreHeuresSupp ;
+	@ManyToOne
+	@JoinColumn(name ="employee.MATRICULE")
+	private Employee employee ;
 
-  
-	@Temporal(TemporalType.DATE)
-	private Date datePay ;
-	private Float montantCNSS ;
 }

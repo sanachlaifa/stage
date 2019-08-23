@@ -7,8 +7,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.entities.Contrat;
-import com.example.demo.entities.Employee;
+import com.example.demo.model.entities.Contrat;
+import com.example.demo.model.entities.Employee;
 import com.example.demo.repositories.ContratRepo;
 import com.example.demo.services.ContratService;
 import com.example.demo.services.EmployeService;
@@ -31,24 +31,20 @@ public class ContratServiceImpl implements ContratService {
 	}
 
 	@Override
-	public List<Contrat> getAllContrat() {
-		 return (List<Contrat>) contratRepository.findAll();
+	public List<Contrat> getAllEmployeeContrat(Long idEmploye) {
+		Employee employee = employeService.getEmployee(idEmploye);
+		return (List<Contrat>) contratRepository.findByEmployee(employee);
 	}
 	
 	
-	 @Transactional
-	@Override
-	public Contrat saveContrat(Contrat contrat, Long idEmploye) {
-		 if(employeService.getEmployee(idEmploye) == null) {
-	            System.out.println("erreur employe");
-	        } else {
-	           
-	            contrat.setEmployee(employeService.getEmployee(idEmploye));
-	            return contratRepository.save(contrat);    
-	        }
-	        return null;
-	    }
 	
+	 @Transactional
+		@Override
+		public Contrat saveContratEmployee (Contrat contrat, Employee employe) {
+		            contrat.setEmployee(employe);
+		            return contratRepository.save(contrat);    
+		       
+		    }
 
 	 @Transactional
 	@Override
@@ -62,12 +58,13 @@ public class ContratServiceImpl implements ContratService {
 	}
 
 	 @Transactional
-	@Override
-	public Contrat updateContrat(long id, Contrat contrat, Long idEmploye) {
-		   getContrat(id);
-	        contrat.setId(id);
-	        return saveContrat(contrat, idEmploye);
-	    }
+		@Override
+		public Contrat updateContratEmployee(long id, Contrat contrat, Employee employe) {
+			   getContrat(id);
+		        contrat.setId(id);
+		        return saveContratEmployee(contrat, employe);
+		    }
+	
 	
 
 	@Override

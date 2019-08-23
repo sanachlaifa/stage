@@ -7,9 +7,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.demo.entities.Contrat;
-import com.example.demo.entities.Prime;
-
+import com.example.demo.model.entities.Contrat;
+import com.example.demo.model.entities.Prime;
 import com.example.demo.repositories.PrimeRepo;
 import com.example.demo.services.ContratService;
 import com.example.demo.services.PrimeService;
