@@ -13,6 +13,6 @@ import com.example.demo.model.entities.FichePaie;
 
 @Repository
 public interface FichePaieRepo extends JpaRepository<FichePaie, Long>{
-	List<FichePaie> findByEmployee(Employee employee);
+	
 	List<FichePaie> findByContrat(Contrat contrat);
 }

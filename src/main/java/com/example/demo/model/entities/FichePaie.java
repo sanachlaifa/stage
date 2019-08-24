@@ -38,9 +38,7 @@ public class FichePaie implements Serializable {
 	 @JoinColumn(name ="CONTRAT_ID")
 	 private Contrat contrat;
 	
-	@ManyToOne
-	@JoinColumn(name ="employee.MATRICULE")
-	private Employee employee ;
+	
 	
 
 }

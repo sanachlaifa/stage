@@ -1,5 +1,7 @@
 package com.example.demo.rest.controllers;
 
+
+
 import java.lang.reflect.Type;
 import java.util.List;
 
@@ -19,56 +21,61 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.model.entities.Employee;
 import com.example.demo.model.entities.Enfant;
 import com.example.demo.rest.dto.EnfantDto;
 import com.example.demo.services.EnfantService;
+import com.example.demo.services.EmployeService;
+
+
+
 
 @CrossOrigin("*")
 @RestController()
 public class EnfantController {
+
+	@Autowired
+	private EnfantService enfantService ;
 	
 	@Autowired
-	private EnfantService enfantService;
+    private EmployeService employeeService;
 	
 	@Autowired
 	private ModelMapper modelMapper;
-
-	@PostMapping("/ajouterEnfant")
-	   public Object addEnfant(@Valid @RequestBody EnfantDto enfantDto, @Valid @RequestBody Long idEmploye) {
+	
+	   @PostMapping("/Employee/{idEmploye}/Enfants")
+	    public Object addEnfantEmployee(@PathVariable("idEmploye") Long idEmploye, @Valid @RequestBody EnfantDto enfantDto) {
+	        Employee employee = employeeService.getEmployee(idEmploye);
+	        Enfant enfant = modelMapper.map(enfantDto, Enfant.class);
+	        enfant = enfantService.saveEnfantEmployee(enfant, employee);
+	        enfantDto = modelMapper.map(enfant, EnfantDto.class);
+	        return ResponseEntity.status(HttpStatus.CREATED).body(enfantDto);
+	    }
+	
+	 @GetMapping("/Employee/{idEmploye}/Enfants")
+	    public Object EnfantsEmployeeList(@PathVariable("idEmploye") Long idEmploye) {
+	        List<Enfant> enfants = enfantService.getAllEmployeeEnfant(idEmploye);
+	        Type listType = new TypeToken<List<EnfantDto>>() {
+	        }.getType();
+	        List<EnfantDto> EnfantDtos = modelMapper.map(enfants, listType);
+	        return ResponseEntity.status(HttpStatus.OK).body(EnfantDtos);
+	    }
+	
+	@PutMapping("/Employee/{idEmploye}/Enfants/{id}")
+    public Object updateEnfantEmployee(@Valid @RequestBody EnfantDto enfantDto, @PathVariable("id") Long id, @PathVariable("idEmploye") Long idEmploye) {
+        Employee Employee = employeeService.getEmployee(idEmploye);
         Enfant enfant = modelMapper.map(enfantDto, Enfant.class);
-        enfant = enfantService.saveEnfant(enfant, idEmploye);
+        enfant = enfantService.updateEnfantEmployee(id, enfant, Employee);
         enfantDto = modelMapper.map(enfant, EnfantDto.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(enfantDto);
     }
+	
 	
 	@DeleteMapping("/supprimerEnfant/{id}")
 	public Object Delete(@PathVariable("id") Long id) {
 		enfantService.deleteEnfant(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-	}	
-	
-	@GetMapping("/listeDesEnfants")
-	public Object EnfantsList() {
-		List<Enfant> l = enfantService.getAllEnfant();
-		Type listType = new TypeToken<List<EnfantDto>>(){}.getType();
-		List<EnfantDto> enfantDtos = modelMapper.map(l, listType);
-		return ResponseEntity.status(HttpStatus.OK).body(enfantDtos);
 	}
-	
-	 @PutMapping("/modifierEnfant/{id}")
-     public Object updateEnfant(@Valid @RequestBody EnfantDto enfantDto, @PathVariable Long id, Long idEmploye) {
-         Enfant enfant = modelMapper.map(enfantDto, Enfant.class);
-         enfant = enfantService.updateEnfant(id, enfant, idEmploye);
-         enfantDto = modelMapper.map(enfant, EnfantDto.class);
-         return ResponseEntity.status(HttpStatus.CREATED).body(enfantDto);
-     }
-	 
-	 @GetMapping("/trouverEnfant/{id}")
-     public Object retrieveEnfant(@PathVariable long id) {
-         Enfant Enfant = enfantService.getEnfant(id);
-         EnfantDto EnfantDto = modelMapper.map(Enfant, EnfantDto.class);
-         return ResponseEntity.status(HttpStatus.OK).body(EnfantDto);
-     }
-	
-}
 
+
+}

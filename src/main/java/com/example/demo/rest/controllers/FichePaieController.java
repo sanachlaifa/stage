@@ -1,17 +1,14 @@
 package com.example.demo.rest.controllers;
 
-import java.lang.reflect.Type;
 
+
+import java.lang.reflect.Type;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-
-import com.example.demo.services.FichePaieService;
-import com.example.demo.model.entities.FichePaie;
-import com.example.demo.rest.dto.FichePaieDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,47 +21,61 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.model.entities.Contrat;
+import com.example.demo.model.entities.FichePaie;
+import com.example.demo.rest.dto.FichePaieDto;
+import com.example.demo.services.ContratService;
+import com.example.demo.services.FichePaieService;
+
+
+
+
 @CrossOrigin("*")
 @RestController()
 public class FichePaieController {
-    @Autowired
-    private FichePaieService ficheService;
-    @Autowired
-    private ModelMapper modelMapper;
-    
-    @GetMapping("/FichePaies")
-    public Object FichePaiesList() {
-        List<FichePaie> fiches = ficheService.getAllFichePaie();
-        Type listType = new TypeToken<List<FichePaieDto>>() {
-        }.getType();
-        List<FichePaieDto> ficheDtos = modelMapper.map(fiches, listType);
-        return ResponseEntity.status(HttpStatus.OK).body(ficheDtos);
+
+	@Autowired
+	private FichePaieService ficheService ;
+	
+	@Autowired
+    private ContratService contratService;
+	
+	@Autowired
+	private ModelMapper modelMapper;
+	
+	   @PostMapping("/contrat/{idC}/fichesPaie")
+	    public Object addFichePaieContrat(@PathVariable("idC") Long idC, @Valid @RequestBody FichePaieDto fichesPaieDto) {
+	        Contrat contrat = contratService.getContrat(idC);
+	        FichePaie fichesPaie = modelMapper.map(fichesPaieDto, FichePaie.class);
+	        fichesPaie = ficheService.saveFichePaieContrat(fichesPaie, contrat);
+	        fichesPaieDto = modelMapper.map(fichesPaie, FichePaieDto.class);
+	        return ResponseEntity.status(HttpStatus.CREATED).body(fichesPaieDto);
+	    }
+	
+	 @GetMapping("/contrat/{idC}/fichesPaie")
+	    public Object FichePaiesContratList(@PathVariable("idC") Long idC) {
+	        List<FichePaie> fichesPaie = ficheService.getAllContratFichePaie(idC);
+	        Type listType = new TypeToken<List<FichePaieDto>>() {
+	        }.getType();
+	        List<FichePaieDto> fichesPaieDtos = modelMapper.map(fichesPaie, listType);
+	        return ResponseEntity.status(HttpStatus.OK).body(fichesPaieDtos);
+	    }
+	
+	@PutMapping("/contrat/{idC}/fichesPaie/{id}")
+    public Object updateFichePaieContrat(@Valid @RequestBody FichePaieDto fichesPaieDto, @PathVariable("id") Long id, @PathVariable("idC") Long idC) {
+        Contrat contrat = contratService.getContrat(idC);
+        FichePaie fichesPaie = modelMapper.map(fichesPaieDto, FichePaie.class);
+        fichesPaie = ficheService.updateFichePaieContrat(id, fichesPaie, contrat);
+        fichesPaieDto = modelMapper.map(fichesPaie, FichePaieDto.class);
+        return ResponseEntity.status(HttpStatus.CREATED).body(fichesPaieDto);
     }
-    @GetMapping("/FichePaies/{id}")
-    public Object retrieveFichePaie(@PathVariable long id) {
-        FichePaie fiche = ficheService.getFichePaie(id);
-        FichePaieDto ficheDto = modelMapper.map(fiche, FichePaieDto.class);
-        return ResponseEntity.status(HttpStatus.OK).body(ficheDto);
-    }
-    @PostMapping("/FichePaies")
-    public Object addFichePaie(@Valid @RequestBody FichePaieDto ficheDto, @Valid @RequestBody Long idEmploye, @Valid @RequestBody Long idContrat) {
-        FichePaie fiche = modelMapper.map(ficheDto, FichePaie.class);
-        fiche  = ficheService.saveFichePaie(fiche , idEmploye, idContrat);
-        ficheDto = modelMapper.map(fiche , FichePaieDto.class);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ficheDto);
-    }
-    
-    @PutMapping("/FichePaies/{id}")
-    public Object updateFichePaie(@Valid @RequestBody FichePaieDto ficheDto, @PathVariable Long id, Long idContrat, Long idEmploye) {
-        FichePaie fiche = modelMapper.map(ficheDto, FichePaie.class);
-        fiche = ficheService.updateFichePaie(id, fiche, idEmploye, idContrat);
-        ficheDto = modelMapper.map(fiche, FichePaieDto.class);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ficheDto);
-    }
-    
-    @DeleteMapping("/FichePaies/{id}")
-    public Object Delete(@PathVariable("id") Long id) {
-    	ficheService.deleteFichePaie(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-    }  
+	
+	
+	@DeleteMapping("/supprimerFichePaie/{id}")
+	public Object Delete(@PathVariable("id") Long id) {
+		ficheService.deleteFichePaie(id);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+	}
+
+
 }

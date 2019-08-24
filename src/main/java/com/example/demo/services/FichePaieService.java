@@ -1,16 +1,18 @@
 package com.example.demo.services;
-
 import java.util.List;
 
+import com.example.demo.model.entities.Contrat;
 import com.example.demo.model.entities.FichePaie;
-
 public interface FichePaieService {
-	FichePaie getFichePaie(Long id);
-    void deleteFichePaie(Long id); 
-    List<FichePaie> getAllFichePaie();
     
-    //employee
-    FichePaie saveFichePaie(FichePaie fiche , Long idEmploye , Long idContrat);
-    FichePaie updateFichePaie(long id, FichePaie fiche, Long idEmploye , Long idContrat);
-    List<FichePaie> getFichePaieEmploye(Long id);
+    FichePaie getFichePaie(Long id);
+    
+    List<FichePaie> getAllContratFichePaie(Long id);
+    
+    FichePaie saveFichePaieContrat(FichePaie fiche, Contrat contrat);
+    
+    void deleteFichePaie(Long id);
+    
+    FichePaie updateFichePaieContrat(Long id, FichePaie fiche, Contrat contrat);
 }
+

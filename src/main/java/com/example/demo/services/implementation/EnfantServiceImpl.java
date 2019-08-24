@@ -13,8 +13,7 @@ import com.example.demo.repositories.EnfantRepo;
 import com.example.demo.services.EnfantService;
 import com.example.demo.services.EmployeService;
 @Service
-public class EnfantServiceImpl implements EnfantService{
-
+public class EnfantServiceImpl implements EnfantService {
 
 	 @Autowired
 	    private EnfantRepo enfantRepository;
@@ -25,32 +24,28 @@ public class EnfantServiceImpl implements EnfantService{
 	@Override
 	public Enfant getEnfant(Long id) {
 		Enfant enfant=enfantRepository.findById(id).get();
-     if (enfant == null) {
-         System.out.println("erreur get");
-     }
-     return enfant;
+        if (enfant == null) {
+            System.out.println("erreur get");
+        }
+        return enfant;
 	}
 
 	@Override
-	public List<Enfant> getAllEnfant() {
-		 return (List<Enfant>) enfantRepository.findAll();
+	public List<Enfant> getAllEmployeeEnfant(Long idEmploye) {
+		Employee employee = employeService.getEmployee(idEmploye);
+		return (List<Enfant>) enfantRepository.findByEmployee(employee);
 	}
+	
+	
 	
 	
 	 @Transactional
-	@Override
-	public Enfant saveEnfant(Enfant enfant, Long idEmploye) {
-		 if(employeService.getEmployee(idEmploye) == null) {
-	            System.out.println("erreur employe");
-	        } else {
-	           
-	            enfant.setEmployee(employeService.getEmployee(idEmploye));
-	            return enfantRepository.save(enfant);    
-	        }
-	        return null;
-	    }
-	
-
+		@Override
+		public Enfant saveEnfantEmployee (Enfant enfant, Employee employe) {
+		            enfant.setEmployee(employe);
+		            return enfantRepository.save(enfant);    
+		       
+		    }
 	 @Transactional
 	@Override
 	public void deleteEnfant(Long id) {
@@ -62,24 +57,26 @@ public class EnfantServiceImpl implements EnfantService{
 		
 	}
 
-	 @Transactional
-	@Override
-	public Enfant updateEnfant(long id, Enfant enfant, Long idEmploye) {
-		   getEnfant(id);
-	        enfant.setId(id);
-	        return saveEnfant(enfant, idEmploye);
-	    }
+	
 	
 
 	@Override
 	public List<Enfant> getEnfantEmploye(Employee employee) {
 		List<Enfant> enfants=enfantRepository.findByEmployee(employee);
-     if (enfants == null) {
-         System.out.println("erreur get");
-     }
-     return enfants;
+        if (enfants == null) {
+            System.out.println("erreur get");
+        }
+        return enfants;
 	}
 
+
+	 @Transactional
+		@Override
+		public Enfant updateEnfantEmployee(long id, Enfant enfant, Employee employe) {
+			   getEnfant(id);
+		        enfant.setId(id);
+		        return saveEnfantEmployee(enfant, employe);
+		    }
 
 
 }

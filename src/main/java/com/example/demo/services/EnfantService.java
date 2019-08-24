@@ -7,9 +7,9 @@ import com.example.demo.model.entities.Employee;
 
 public interface EnfantService {
     Enfant getEnfant(Long id);
-    List<Enfant> getAllEnfant();
-    Enfant saveEnfant(Enfant enfant, Long idEmploye);  
+	 List<Enfant> getAllEmployeeEnfant(Long idEmploye);
+    Enfant saveEnfantEmployee(Enfant enfant,Employee employe);  
     void deleteEnfant(Long id);
-    Enfant updateEnfant(long id, Enfant enfant, Long idEmploye);
+    Enfant updateEnfantEmployee(long id, Enfant enfant, Employee employee);
     List<Enfant> getEnfantEmploye(Employee employee);
 }

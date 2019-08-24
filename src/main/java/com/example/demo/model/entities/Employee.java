@@ -78,8 +78,7 @@ public class Employee implements Serializable{
    private Set<Enfant> enfants;
    @OneToMany(mappedBy="employee", cascade= {CascadeType.MERGE, CascadeType.PERSIST}, fetch= FetchType.LAZY)
    private Set<Contrat> contrats;
-   @OneToMany(mappedBy="employee", cascade= {CascadeType.MERGE, CascadeType.PERSIST}, fetch= FetchType.LAZY)
-   private Set<FichePaie> fiches;
+  
    @OneToMany(mappedBy="employee", cascade= {CascadeType.MERGE, CascadeType.PERSIST}, fetch= FetchType.LAZY)
    private Set<Presence> presence;
 

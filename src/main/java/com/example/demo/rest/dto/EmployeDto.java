@@ -44,7 +44,7 @@ public class EmployeDto {
 	   private Integer valider;
 	   private Collection<EnfantDto> enfantDtos;
 	   private Collection<ContratDto> contratDtos;
-	   private Collection<FichePaieDto> ficheDtos;
+	  
 	   private Collection<PresenceDto> presenceDtos;
 }
 
