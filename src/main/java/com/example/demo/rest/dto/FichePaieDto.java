@@ -17,7 +17,6 @@ import lombok.Setter;
 @JsonInclude(Include.NON_NULL)
 public class FichePaieDto {
 	private Long idFiche ;
-	private String urlFiche ;
-	private Long idSal ;
+	private Double net_A_payer ;
     private Date dateCreation ;
 }

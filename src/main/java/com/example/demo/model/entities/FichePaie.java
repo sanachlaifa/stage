@@ -30,7 +30,6 @@ public class FichePaie implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idFiche ;
    
-
 	@Temporal(TemporalType.DATE)
 	private Date dateCreation ;
 

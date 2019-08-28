@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.model.entities.Contrat;
 import com.example.demo.model.entities.FichePaie;
 import com.example.demo.rest.dto.FichePaieDto;
+import com.example.demo.rest.dto.ContratDto;
+
 import com.example.demo.services.ContratService;
 import com.example.demo.services.FichePaieService;
 
@@ -52,6 +54,14 @@ public class FichePaieController {
 	        return ResponseEntity.status(HttpStatus.CREATED).body(fichesPaieDto);
 	    }
 	
+	   @GetMapping("/calcul/{id}")
+		public Object findOneEmploye(@PathVariable("id") long id) {
+			FichePaie fiche = ficheService.getFichePaie(id);
+			FichePaieDto ficheDto = modelMapper.map( fiche,  FichePaieDto.class);
+			ficheDto.setNet_A_payer(ficheService.netApayer(id));
+			return ResponseEntity.status(HttpStatus.OK).body(ficheDto);
+		}
+	   
 	 @GetMapping("/contrat/{idC}/fichesPaie")
 	    public Object FichePaiesContratList(@PathVariable("idC") Long idC) {
 	        List<FichePaie> fichesPaie = ficheService.getAllContratFichePaie(idC);
@@ -59,6 +69,13 @@ public class FichePaieController {
 	        }.getType();
 	        List<FichePaieDto> fichesPaieDtos = modelMapper.map(fichesPaie, listType);
 	        return ResponseEntity.status(HttpStatus.OK).body(fichesPaieDtos);
+	    }
+	 
+	 @GetMapping("/getContrat/{idF}")
+	    public Object FichePaiesContrat(@PathVariable("idF") Long idF) {
+		 Contrat  c = ficheService.getContrat(ficheService.getFichePaie(idF)); 
+	        ContratDto contratDto = modelMapper.map( c,  ContratDto.class);
+	        return ResponseEntity.status(HttpStatus.OK).body(contratDto);
 	    }
 	
 	@PutMapping("/contrat/{idC}/fichesPaie/{id}")
@@ -76,6 +93,5 @@ public class FichePaieController {
 		ficheService.deleteFichePaie(id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 	}
-
 
 }

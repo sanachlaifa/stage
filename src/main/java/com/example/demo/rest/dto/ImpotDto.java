@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 @JsonInclude(Include.NON_NULL)
 public class ImpotDto {
 	private Long idImpotRev ;
-	private long borneSup ;
-	private long borneInf ;
-	private float taux ;
+	private Double borneSup ;
+	private Double borneInf ;
+	private Double taux ;
 
 }

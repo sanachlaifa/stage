@@ -5,6 +5,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,6 +33,7 @@ public class Enfant  implements Serializable  {
 	   @GeneratedValue(strategy= GenerationType.IDENTITY)
 	   @Column(name= "ID", nullable=false)
 	   private Long id;
+	@Enumerated(EnumType.STRING)
 	   private Etat etatEnfant;
 	   @ManyToOne(fetch = FetchType.LAZY)
 		 @JoinColumn(name ="EMPLOYEE_MATRICULE")

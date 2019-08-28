@@ -5,6 +5,7 @@ package com.example.demo.rest.controllers;
 import java.lang.reflect.Type;
 import java.util.List;
 
+
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.model.entities.Employee;
+
 import com.example.demo.model.entities.Contrat;
 import com.example.demo.rest.dto.ContratDto;
 import com.example.demo.services.ContratService;
@@ -52,6 +54,8 @@ public class ContratController {
 	        return ResponseEntity.status(HttpStatus.CREATED).body(contratDto);
 	    }
 	
+	  
+	   
 	 @GetMapping("/Employee/{idEmploye}/Contrats")
 	    public Object ContratsEmployeeList(@PathVariable("idEmploye") Long idEmploye) {
 	        List<Contrat> contrats = contratService.getAllEmployeeContrat(idEmploye);

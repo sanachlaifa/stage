@@ -27,9 +27,9 @@ public class ImpotRevenu implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long idImpotRev ;
-	private long borneSup ;
-	private long borneInf ;
-	private float taux ;
+	private Double borneSup ;
+	private Double borneInf ;
+	private Double taux ;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	 @JoinColumn(name ="CONTRAT_ID")

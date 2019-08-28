@@ -10,6 +10,8 @@ spring:
       ddl-auto: update
     properties:
       hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
         format_sql: true
         generate_statistics: false
         dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -24,4 +26,5 @@ logging.level:
   org.hibernate:
     stat: debug
     type: trace
+
 

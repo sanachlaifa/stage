@@ -1,9 +1,9 @@
 package com.example.demo.rest.dto;
 
 import java.util.Date;
-import java.util.Set;
 
-import com.example.demo.model.entities.Categorie;
+
+import com.example.demo.model.enumeration.Situation;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 @JsonInclude(Include.NON_NULL)
 public class AbattementDto {
     private Long idAbat ;
+    private Situation situation ;
     private float valeur ;
 	private Date dateAbat ;
-	private CategorieDto categorie;
 
 }

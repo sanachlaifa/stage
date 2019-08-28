@@ -1,6 +1,7 @@
 package com.example.demo.services.implementation;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -9,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.entities.Contrat;
 import com.example.demo.model.entities.Employee;
+import com.example.demo.model.entities.Parametres;
+import com.example.demo.model.entities.Prime;
 import com.example.demo.repositories.ContratRepo;
 import com.example.demo.services.ContratService;
 import com.example.demo.services.EmployeService;
@@ -75,8 +78,19 @@ public class ContratServiceImpl implements ContratService {
         }
         return contrats;
 	}
-
 	
+	
+	@Override
+	public Set<Parametres> getPars(Contrat contrat) {
+		return  contrat.getParametre();
+	}
+
+
+
+	@Override
+	public Set<Prime> getPrimes(Contrat contrat) {
+		return contrat.getPrime();
+	}
 
 
 }
